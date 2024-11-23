@@ -1,24 +1,23 @@
 import { useState } from 'react';
+import QuestionForm from './components/QuestionForm';
+import AnswerDisplay from './components/AnswerDisplay';
 import { reqToGroq } from './utils/groq';
-import { Light as SyntaxHighlight } from 'react-syntax-highlighter';
-import { darcula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState(""); 
-  const [selectedDifficulty, setSelectedDifficulty] = useState(""); 
-  const [selectedQuestionCount, setSelectedQuestionCount] = useState(""); 
 
-  const handleSubmit = async () => {
+  const handleGenerateQuestions = async (formValues) => {
+    const { subject, difficulty, questionType, questionCount } = formValues;
+
     // Validasi input
-    if (!selectedSubject || !selectedDifficulty || !selectedQuestionCount) {
-      alert("Mohon pilih semua opsi!");
+    if (!subject || !difficulty || !questionCount) {
+      alert('Mohon pilih semua opsi!');
       return;
     }
 
-    const prompt = `Coba generate soal beserta jawabannya mengenai ${selectedSubject} dengan tingkat kesulitan ${selectedDifficulty} dengan jumlah ${selectedQuestionCount} soal dengan bahasa Indonesia`;
+    const prompt = `Coba generate soal ${questionType} beserta jawabannya mengenai ${subject} dengan tingkat kesulitan ${difficulty} dengan jumlah ${questionCount} soal dengan bahasa Indonesia dengan format seperti ini **Soal 1**`;
 
     setLoading(true); // Mulai loading
     try {
@@ -32,74 +31,10 @@ function App() {
   };
 
   return (
-    <main className="flex flex-col min-h-[80vh] justify-center items-center max-w-xl w-full mx-auto">
-      <h1 className="text-4xl text-emerald font-bold p-4">REACT</h1>
-      <form className="flex flex-col gap-4 w-full">
-        {/* Dropdown Mata Pelajaran */}
-        <select
-          className="py-2 px-4 rounded-lg"
-          value={selectedSubject}
-          onChange={(e) => setSelectedSubject(e.target.value)}
-        >
-          <option value="" disabled>
-            Pilih Mata Pelajaran...
-          </option>
-          <option value="Matematika">Matematika</option>
-          <option value="Fisika">Fisika</option>
-          <option value="Biologi">Biologi</option>
-          <option value="Sejarah">Sejarah</option>
-        </select>
-
-        {/* Dropdown Tingkat Kesulitan */}
-        <select
-          className="py-2 px-4 rounded-lg"
-          value={selectedDifficulty}
-          onChange={(e) => setSelectedDifficulty(e.target.value)}
-        >
-          <option value="" disabled>
-            Pilih Tingkat Kesulitan...
-          </option>
-          <option value="Mudah">Mudah</option>
-          <option value="Sedang">Sedang</option>
-          <option value="Sulit">Sulit</option>
-        </select>
-
-        {/* Dropdown Jumlah Soal */}
-        <select
-          className="py-2 px-4 rounded-lg"
-          value={selectedQuestionCount}
-          onChange={(e) => setSelectedQuestionCount(e.target.value)}
-        >
-          <option value="" disabled>
-            Pilih Jumlah Soal...
-          </option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-        </select>
-
-        {/* Tombol Submit */}
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={loading}
-          className={`bg-teal-500 font-bold rounded-xl p-4 ${
-            loading ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-        >
-          {loading ? 'Loading...' : 'Kirim'}
-        </button>
-      </form>
-      <div className="max-w-xl mt-4">
-        <SyntaxHighlight
-          lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }}
-          language="swift"
-          style={darcula}
-          wrapLongLines={true}
-        >
-          {data}
-        </SyntaxHighlight>
-      </div>
+    <main className="flex flex-col min-h-[80vh] justify-center items-center max-w-3xl w-full mx-auto">
+      <h1 className="text-6xl text-emerald font-bold p-4">GENERATOR SOAL ⚙️</h1>
+      <QuestionForm onSubmit={handleGenerateQuestions} loading={loading} />
+      <AnswerDisplay data={data} />
     </main>
   );
 }

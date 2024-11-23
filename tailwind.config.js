@@ -15,7 +15,10 @@ export default {
       'slate': '#e2e8f0',
       'red': '#fca5a5',
       'redhov': '#f87171'
-    },},
+    },
+    fontFamily: {
+      sans: ['Poppins', 'Inter', 'sans-serif'], // Set font default ke Inter
+    }},
   },
   plugins: [],
 }
