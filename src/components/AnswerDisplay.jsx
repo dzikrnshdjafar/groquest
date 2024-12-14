@@ -8,10 +8,9 @@ function AnswerDisplay({ data }) {
 
   return (
     <div className="max-w-4xl mt-4 space-y-4">
-      {data
-        ? data
+      { data
             .split('**Soal')
-            .slice(1) // Abaikan kalimat pembuka
+            .slice(1)
             .map((soal, index) => (
               <SyntaxHighlight
                 key={index}
@@ -24,7 +23,7 @@ function AnswerDisplay({ data }) {
                 {`**Soal${highlightJawaban(soal)}`}
               </SyntaxHighlight>
             ))
-        : '// Hasil akan muncul di sini...'}
+        }
     </div>
   );
 }

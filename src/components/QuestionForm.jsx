@@ -21,7 +21,6 @@ function QuestionForm({ onSubmit, loading }) {
         <option value="" disabled>
           Pilih Mata Pelajaran...
         </option>
-        {/* Options */}
         <option value="Matematika">Matematika</option>
         <option value="Fisika">Fisika</option>
         <option value="Biologi">Biologi</option>
@@ -71,7 +70,7 @@ function QuestionForm({ onSubmit, loading }) {
         </option>
         <option value="5">5</option>
         <option value="10">10</option>
-        <option value="20">20</option>
+        {/* <option value="20">20</option> */}
       </select>
 
       <button

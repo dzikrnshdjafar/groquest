@@ -11,7 +11,6 @@ function App() {
   const handleGenerateQuestions = async (formValues) => {
     const { subject, difficulty, questionType, questionCount } = formValues;
 
-    // Validasi input
     if (!subject || !difficulty || !questionCount) {
       alert('Mohon pilih semua opsi!');
       return;
@@ -19,14 +18,14 @@ function App() {
 
     const prompt = `Coba generate soal ${questionType} beserta jawabannya mengenai ${subject} dengan tingkat kesulitan ${difficulty} dengan jumlah ${questionCount} soal dengan bahasa Indonesia dengan format seperti ini **Soal 1**`;
 
-    setLoading(true); // Mulai loading
+    setLoading(true);
     try {
       const ai = await reqToGroq(prompt);
-      setData(ai); // Setel data ke respons API
+      setData(ai); 
     } catch (error) {
-      console.error('Error:', error); // Tangani error jika ada
+      console.error('Error:', error);
     } finally {
-      setLoading(false); // Selesai loading
+      setLoading(false);
     }
   };
 

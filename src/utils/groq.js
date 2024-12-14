@@ -1,19 +1,24 @@
-import {Groq} from "groq-sdk"
+const API_URL = import.meta.env.VITE_API_URL
 
-const GROQ_APIKEY = import.meta.env.VITE_GROQ_APIKEY
-
-const groq = new Groq({
-  apiKey: GROQ_APIKEY,
-  dangerouslyAllowBrowser: true
-})
-
-export const reqToGroq = async(content) => {
-    const reply = await groq.chat.completions.create({
-        messages: [{
-            role: "user",
-            content
-        }] ,
-        model: "llama3-8b-8192",
-    })
-    return reply.choices[0].message.content;
-}
+export const reqToGroq = async (content) => {
+    try {
+      const response = await fetch(`${API_URL}/api/groq`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Gagal mendapatkan respons dari server");
+      }
+  
+      const data = await response.json();
+      return data.message; // Mengambil pesan dari server
+    } catch (error) {
+      console.error("Error saat menghubungi server:", error);
+      throw error;
+    }
+  };
+  
